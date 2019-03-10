@@ -6,19 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | 码菜</title>
+  <title>python3 操作Jlink.md | 码菜</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="代码一锅大乱炖">
-<meta name="keywords" content="Code FPGA MCU">
-<meta property="og:type" content="website">
-<meta property="og:title" content="码菜">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+  <meta name="description" content="JLINK是一种常见的ARM调试器，在MCU的测试中我们有时候需要通过脚本和JLINK交互，所以这里就把python3和JLINK交互的一些技巧做一个简单的总结。 打开DLLJLINK实际是有一套完整的API的，这个API可以通过DLL进行调用，我们来看看python3打开API调用的方式： 1234import ctypes, os, sysprint(os.environ.get(&quot;JLINK">
+<meta name="keywords" content="python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python3 操作Jlink.md">
+<meta property="og:url" content="http://yoursite.com/2019/03/10/python-jlink-md/index.html">
 <meta property="og:site_name" content="码菜">
-<meta property="og:description" content="代码一锅大乱炖">
+<meta property="og:description" content="JLINK是一种常见的ARM调试器，在MCU的测试中我们有时候需要通过脚本和JLINK交互，所以这里就把python3和JLINK交互的一些技巧做一个简单的总结。 打开DLLJLINK实际是有一套完整的API的，这个API可以通过DLL进行调用，我们来看看python3打开API调用的方式： 1234import ctypes, os, sysprint(os.environ.get(&quot;JLINK">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/images/jlink_error.png">
+<meta property="og:updated_time" content="2019-03-10T10:19:54.896Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="码菜">
-<meta name="twitter:description" content="代码一锅大乱炖">
+<meta name="twitter:title" content="python3 操作Jlink.md">
+<meta name="twitter:description" content="JLINK是一种常见的ARM调试器，在MCU的测试中我们有时候需要通过脚本和JLINK交互，所以这里就把python3和JLINK交互的一些技巧做一个简单的总结。 打开DLLJLINK实际是有一套完整的API的，这个API可以通过DLL进行调用，我们来看看python3打开API调用的方式： 1234import ctypes, os, sysprint(os.environ.get(&quot;JLINK">
+<meta name="twitter:image" content="http://yoursite.com/images/jlink_error.png">
   
     <link rel="alternative" href="/atom.xml" title="码菜" type="application/atom+xml">
   
@@ -166,74 +169,199 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-python-jlink-md" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/10/N1_bootloader/" class="archive-article-date">
-  	<time datetime="2019-03-10T10:16:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-10</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/10/N1_bootloader/">斐讯N1 Bootloader</a>
+    <h1 class="article-title" itemprop="name">
+      python3 操作Jlink.md
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">MCU</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/10/python-jlink-md/" class="archive-article-date">
+        
+        <a href="/2019/03/10/python-jlink-md/" class="archive-article-date">
   	<time datetime="2019-03-10T10:16:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-10</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/10/python-jlink-md/">python3 操作Jlink.md</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>JLINK是一种常见的ARM调试器，在MCU的测试中我们有时候需要通过脚本和JLINK交互，所以这里就把python3和JLINK交互的一些技巧做一个简单的总结。</p>
+<h2 id="打开DLL"><a href="#打开DLL" class="headerlink" title="打开DLL"></a>打开DLL</h2><p>JLINK实际是有一套完整的API的，这个API可以通过DLL进行调用，我们来看看python3打开API调用的方式：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> ctypes, os, sys</span><br><span class="line">print(os.environ.get(<span class="string">"JLINK_ARM_PATH"</span>))</span><br><span class="line"><span class="comment"># "C:\Program Files (x86)\SEGGER\JLink_V634e\JLinkARM.dll" for windows</span></span><br><span class="line">jlink = ctypes.cdll.LoadLibrary(os.environ.get(<span class="string">"JLINK_ARM_PATH"</span>)</span><br></pre></td></tr></table></figure>
+<p>上面就是通过ctypes调用JLINK API的方式，这种方式在linux上也可以运行，不过需要注意的是32位的python只能调用32位的DLL，所以这里一定要保持一致。</p>
+<a id="more"></a>
+<h2 id="API列表"><a href="#API列表" class="headerlink" title="API列表"></a>API列表</h2><p>下面是一些常见的API的一个列表：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">函数名称</th>
+<th style="text-align:left">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">JLINKARM_Open()</td>
+<td style="text-align:left">打开JLINK</td>
+</tr>
+<tr>
+<td style="text-align:left">JLINKARM_Sleep(int ms)</td>
+<td style="text-align:left">延时</td>
+</tr>
+<tr>
+<td style="text-align:left">JLINKARM_Close()</td>
+<td style="text-align:left">关闭设备</td>
+</tr>
+<tr>
+<td style="text-align:left">JLINKARM_Reset()</td>
+<td style="text-align:left">系统复位</td>
+</tr>
+<tr>
+<td style="text-align:left">JLINKARM_GoAllowSim()</td>
+<td style="text-align:left">-</td>
+</tr>
+<tr>
+<td style="text-align:left">JLINKARM_Go()</td>
+<td style="text-align:left">执行程序</td>
+</tr>
+<tr>
+<td style="text-align:left">JLINKARM_Halt()</td>
+<td style="text-align:left">中断程序</td>
+</tr>
+<tr>
+<td style="text-align:left">JLINKARM_Step()</td>
+<td style="text-align:left">单步执行</td>
+</tr>
+<tr>
+<td style="text-align:left">JLINKARM_ClrError()</td>
+<td style="text-align:left">清除错误</td>
+</tr>
+<tr>
+<td style="text-align:left">JLINKARM_SetSpeed(int speed)</td>
+<td style="text-align:left">设置接口速度</td>
+</tr>
+<tr>
+<td style="text-align:left">JLINKARM_SetMaxSpeed()</td>
+<td style="text-align:left">设为最高速度</td>
+</tr>
+<tr>
+<td style="text-align:left">JLINKARM_GetVoltage()</td>
+<td style="text-align:left">读取电压</td>
+</tr>
+<tr>
+<td style="text-align:left">JLINKARM_IsHalted()</td>
+<td style="text-align:left">查询程序是否暂停</td>
+</tr>
+<tr>
+<td style="text-align:left">JLINKARM_IsOpen()</td>
+<td style="text-align:left">查询设备是否打开</td>
+</tr>
+<tr>
+<td style="text-align:left">JLINKARM_ClrBP(UInt32 index)</td>
+<td style="text-align:left">取消断点</td>
+</tr>
+<tr>
+<td style="text-align:left">JLINKARM_SetBP(UInt32 index, UInt32 addr)</td>
+<td style="text-align:left">设置断点</td>
+</tr>
+<tr>
+<td style="text-align:left">JLINKARM_SetBPEx(UInt32 addr, BP_MODE mode)</td>
+<td style="text-align:left">设置程序断点</td>
+</tr>
+<tr>
+<td style="text-align:left">JLINKARM_ClrBPEx(int handle)</td>
+<td style="text-align:left">取消程序断点</td>
+</tr>
+<tr>
+<td style="text-align:left">JLINKARM_WriteReg(ARM_REG index, UInt32 dat)</td>
+<td style="text-align:left">写寄存器</td>
+</tr>
+<tr>
+<td style="text-align:left">UInt32 JLINKARM_ReadReg(ARM_REG index)</td>
+<td style="text-align:left">读寄存器</td>
+</tr>
+<tr>
+<td style="text-align:left">JLINKARM_WriteMem(UInt32 addr, UInt32 size, byte[] buf)</td>
+<td style="text-align:left">写内存</td>
+</tr>
+<tr>
+<td style="text-align:left">JLINKARM_ReadMem(UInt32 addr, UInt32 size, byte[] buf)</td>
+<td style="text-align:left">读内存</td>
+</tr>
+<tr>
+<td style="text-align:left">UInt32 JLINKARM_GetDLLVersion()</td>
+<td style="text-align:left">读DLL版本号</td>
+</tr>
+<tr>
+<td style="text-align:left">UInt32 JLINKARM_GetHardwareVersion()</td>
+<td style="text-align:left">读固件版本</td>
+</tr>
+<tr>
+<td style="text-align:left">UInt32 JLINKARM_GetSN()</td>
+<td style="text-align:left">读SN</td>
+</tr>
+<tr>
+<td style="text-align:left">UInt32 JLINKARM_GetId()</td>
+<td style="text-align:left">读MCU ID</td>
+</tr>
+</tbody>
+</table>
+<h2 id="举个栗子"><a href="#举个栗子" class="headerlink" title="举个栗子"></a>举个栗子</h2><p>内部Memory的读操作可以通过以下方式完成:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">read_mem</span><span class="params">(jlink, address, count)</span>:</span></span><br><span class="line">    buftype=ctypes.c_ubyte * int(count)</span><br><span class="line">    buf=buftype()</span><br><span class="line">    status = jlink.JLINKARM_ReadMemU8(address, count, buf, <span class="number">0</span>)</span><br><span class="line">    print(<span class="string">"Read status:"</span>, status)</span><br><span class="line">    <span class="keyword">return</span> buf</span><br></pre></td></tr></table></figure>
+<p>写操作：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">write_mem</span><span class="params">(jlink, address, buf)</span>:</span></span><br><span class="line">    jlink.JLINKARM_WriteMem.argtypes = [ctypes.c_int, ctypes.c_int, ctypes.c_char_p]</span><br><span class="line">    jlink.JLINKARM_WriteMem.restype = ctypes.c_int</span><br><span class="line">    status = jlink.JLINKARM_WriteMem(address, len(buf), buf)</span><br><span class="line">    <span class="keyword">if</span> status &lt; <span class="number">0</span>:</span><br><span class="line">        print(<span class="string">"FAIL: download error"</span>)</span><br><span class="line">        sys.exit(<span class="number">1</span>)</span><br><span class="line">    print(<span class="string">"write status:"</span>, status)</span><br></pre></td></tr></table></figure>
+<p>写寄存器：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">write_reg</span><span class="params">(jlink, r, val)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> isinstance(val, ctypes.c_ulong):</span><br><span class="line">        val = ctypes.c_ulong(val)</span><br><span class="line">    jlink.JLINKARM_WriteReg(r, val)</span><br><span class="line"></span><br><span class="line"><span class="comment"># set sp</span></span><br><span class="line">write_reg(jlink, <span class="number">13</span>, sp)</span><br><span class="line"><span class="comment"># set pc</span></span><br><span class="line">write_reg(jlink, <span class="number">15</span>, pc + <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="选择JLINK"><a href="#选择JLINK" class="headerlink" title="选择JLINK"></a>选择JLINK</h2><p>对于批量测试，我们常常会在一台电脑上挂多个JLink，这个时候直接运行脚本的时候就会出现一个选择Jlink的窗口，这个窗口会直接打断我们的测试脚本，这个时候就需要通过指定SN的方式去选择我们需要的Jlink, 指定Jlink的方法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jlink.JLINKARM_EMU_SelectByUSBSN(621000000)</span><br></pre></td></tr></table></figure>
+<h2 id="烦人的Device-selection"><a href="#烦人的Device-selection" class="headerlink" title="烦人的Device selection"></a>烦人的Device selection</h2><p>搞定了前面的问题之后，终于开始连CORE的时候，却碰到了如下的提示：</p>
+<p><img src="/images/jlink_error.png" alt="Jlink Error"></p>
+<p>这个提示是说没有指定相应的Device，其实这个没有什么必要，不过好像Jlink特别喜欢跳这个东东，这个窗口一跳出来就会打断我们正在执行的脚本，所以这个问题也要搞定。其实搞定这个也没那么难，就是要查很多地方，毕竟自己驱动jlink的人还是少数，不过后来我还是找到了一个方法，就是直接connect之前指定目标core:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">jlink.JLINKARM_TIF_Select(1)</span><br><span class="line">jlink.JLINKARM_CORE_Select(0x60000FF)  # cortex_m0+</span><br></pre></td></tr></table></figure>
+<p>这里TIF select是指定调试接口类型，这里用的是SWD，后面一句是指定core的类型。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>其实这一个系列走下来，就相当于自己搞了一个SDK， Segger官方本来是有SDK的，不过因为要收费，所以只能自己慢慢搞上一个了。</p>
 
-        <div class="article-info info-on-right">
-          
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/images/top/alipay.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/images/top/wechat.jpg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -245,46 +373,115 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/03/10/python-jlink-md/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/10/hello-world/" class="archive-article-date">
-  	<time datetime="2019-03-10T08:32:25.251Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-10</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2019/03/10/N1_bootloader/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          斐讯N1 Bootloader
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/03/10/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Hello World</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/10/hello-world/">Hello World</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
+
+  
 
 
           </div>
@@ -307,8 +504,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
