@@ -1,5 +1,5 @@
 ---
-title: python3 操作Jlink.md
+title: python3 操作Jlink
 date: 2019-03-10 18:16:07
 tags: python
 ---
