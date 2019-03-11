@@ -6,19 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>码菜</title>
+  <title>示波器电流测量 | 码菜</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="代码一锅大乱炖">
-<meta name="keywords" content="Code FPGA MCU">
-<meta property="og:type" content="website">
-<meta property="og:title" content="码菜">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="我们知道示波器一般使用来测量电压波形的，不过有些时候我们需要用它来测量电流的变化，这个在普通情况下是很难直接测量的。对于电流测试，其实示波器也有专门的电流探头，不过一般很少会配这种探头，并且电流探头精度和带宽普遍都不是很高，所以对于很多情况并不适用，这个时候我们就需要其他方法对电流进行测量，也就是把我们需要测量的电流信号直接转化为电压型号进行测试，这种转换方式最直接的就是加一个电阻，这样可以直接测">
+<meta name="keywords" content="MCU">
+<meta property="og:type" content="article">
+<meta property="og:title" content="示波器电流测量">
+<meta property="og:url" content="http://yoursite.com/2019/03/11/current-measure-on-oscillator/index.html">
 <meta property="og:site_name" content="码菜">
-<meta property="og:description" content="代码一锅大乱炖">
+<meta property="og:description" content="我们知道示波器一般使用来测量电压波形的，不过有些时候我们需要用它来测量电流的变化，这个在普通情况下是很难直接测量的。对于电流测试，其实示波器也有专门的电流探头，不过一般很少会配这种探头，并且电流探头精度和带宽普遍都不是很高，所以对于很多情况并不适用，这个时候我们就需要其他方法对电流进行测量，也就是把我们需要测量的电流信号直接转化为电压型号进行测试，这种转换方式最直接的就是加一个电阻，这样可以直接测">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/images/current_measure.gif">
+<meta property="og:updated_time" content="2019-03-11T06:19:08.264Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="码菜">
-<meta name="twitter:description" content="代码一锅大乱炖">
+<meta name="twitter:title" content="示波器电流测量">
+<meta name="twitter:description" content="我们知道示波器一般使用来测量电压波形的，不过有些时候我们需要用它来测量电流的变化，这个在普通情况下是很难直接测量的。对于电流测试，其实示波器也有专门的电流探头，不过一般很少会配这种探头，并且电流探头精度和带宽普遍都不是很高，所以对于很多情况并不适用，这个时候我们就需要其他方法对电流进行测量，也就是把我们需要测量的电流信号直接转化为电压型号进行测试，这种转换方式最直接的就是加一个电阻，这样可以直接测">
+<meta name="twitter:image" content="http://yoursite.com/images/current_measure.gif">
   
     <link rel="alternative" href="/atom.xml" title="码菜" type="application/atom+xml">
   
@@ -166,16 +169,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-current-measure-on-oscillator" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-current-measure-on-oscillator" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/11/current-measure-on-oscillator/">示波器电流测量</a>
+    <h1 class="article-title" itemprop="name">
+      示波器电流测量
     </h1>
   
 
@@ -189,11 +190,44 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>我们知道示波器一般使用来测量电压波形的，不过有些时候我们需要用它来测量电流的变化，这个在普通情况下是很难直接测量的。对于电流测试，其实示波器也有专门的电流探头，不过一般很少会配这种探头，并且电流探头精度和带宽普遍都不是很高，所以对于很多情况并不适用，这个时候我们就需要其他方法对电流进行测量，也就是把我们需要测量的电流信号直接转化为电压型号进行测试，这种转换方式最直接的就是加一个电阻，这样可以直接测量电阻上的电压，就可以直接反映电流的变化了。</p>
-        
-          <a class="article-more-a" href="/2019/03/11/current-measure-on-oscillator/#more">more >></a>
-        
+<a id="more"></a>
+<p>这个方法原理上十分简单，但是操作起来还是有一定难度的。首先我们肯定不能直接把示波器的探头夹到电阻两端，因为电阻两端实际都是电源，直接把地端加上去就会导致短路，其实也就是普通单端探头不能直接当成差分探头使用。另外我们可以通过使用两个探头的方式实现差分测量，原理也比较简单，直接把两个通道的信号做减法就可以了，不过这种方式精度有限，因为都是DC耦合，所以测量范围受偏置电压约束。最后，也是最有效的方式就是使用差分探头，这样可以直接做减法，测量精度就有了可靠保证，比如下面就是一个测量电流的结果。</p>
+<p><img src="/images/current_measure.gif" alt="current measure wavefrom"></p>
+<p>一点小问题：实际测试中还是碰到了其他一些小问题，比如使用泰克示波器的时候就出现当使用主动探头的时候，所有通道的阻抗都会变成50欧姆，这样就会影响到我的触发信号，因为触发信号的脉冲驱动能力比较弱，所以脉冲直接被吃了，造成不能正常触发，最后换成安捷伦的示波器才搞定。</p>
+
       
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/images/top/alipay.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/images/top/wechat.jpg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
       
     </div>
     <div class="article-info article-info-index">
@@ -213,16 +247,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/11/current-measure-on-oscillator/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//sapi.k780.com/?app=qr.get&data=http://yoursite.com/2019/03/11/current-measure-on-oscillator/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2019/03/10/N1_bootloader/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">斐讯N1 Bootloader</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -242,230 +335,14 @@
 
 
 
-
   
-    <article id="post-N1_bootloader" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/10/N1_bootloader/">斐讯N1 Bootloader</a>
-    </h1>
   
 
-        
-        <a href="/2019/03/10/N1_bootloader/" class="archive-article-date">
-  	<time datetime="2019-03-10T10:16:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近把家里的N1系统给玩坏了，后面重装系统的时候，系统一直装不到EMMC上，这个可真的能逼死我这个强迫症，无奈只好将N1拆机捣鼓。</p>
-<p>先说下系统玩坏的过程，也就是闲的没事干，想把N1上的linux升级一下，因为最新的内核好像也可以支持WIFI和蓝牙了，在升级的过程中发现4.19不能直接装到EMMC上，因为4.19上枚举不出来<code>/dev/data</code>，没办法，只好回到3.19, 本来直接回去装个驱动就好了，但是手贱的我直接把dtb给升级替换了，不巧，新的dtb并不好用，所以系统就起不来了，好歹还能从U盘启动，本来吧，直接启动完把dtb换回来就好了，我偏偏又重装了一下，熟练重启，系统崩溃。</p>
-<p>拆机连上UART发现log上面也米有什么有用的东西，最后把分区重新格式化，重新装，莫名其妙的就启动起来了，这个。。。。我也不知道说什么才好，总之EMMC上系统跑起来还是很快的，折腾就折腾了。</p>
-        
-          <a class="article-more-a" href="/2019/03/10/N1_bootloader/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">MCU</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/10/N1_bootloader/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-python-jlink-md" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/10/python-jlink-md/">python3 操作Jlink</a>
-    </h1>
   
 
-        
-        <a href="/2019/03/10/python-jlink-md/" class="archive-article-date">
-  	<time datetime="2019-03-10T10:16:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>JLINK是一种常见的ARM调试器，在MCU的测试中我们有时候需要通过脚本和JLINK交互，所以这里就把python3和JLINK交互的一些技巧做一个简单的总结。</p>
-<h2 id="打开DLL"><a href="#打开DLL" class="headerlink" title="打开DLL"></a>打开DLL</h2><p>JLINK实际是有一套完整的API的，这个API可以通过DLL进行调用，我们来看看python3打开API调用的方式：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> ctypes, os, sys</span><br><span class="line">print(os.environ.get(<span class="string">"JLINK_ARM_PATH"</span>))</span><br><span class="line"><span class="comment"># "C:\Program Files (x86)\SEGGER\JLink_V634e\JLinkARM.dll" for windows</span></span><br><span class="line">jlink = ctypes.cdll.LoadLibrary(os.environ.get(<span class="string">"JLINK_ARM_PATH"</span>)</span><br></pre></td></tr></table></figure>
-<p>上面就是通过ctypes调用JLINK API的方式，这种方式在linux上也可以运行，不过需要注意的是32位的python只能调用32位的DLL，所以这里一定要保持一致。</p>
-        
-          <a class="article-more-a" href="/2019/03/10/python-jlink-md/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/10/python-jlink-md/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/10/hello-world/">Hello World</a>
-    </h1>
   
 
-        
-        <a href="/2019/03/10/hello-world/" class="archive-article-date">
-  	<time datetime="2019-03-10T08:32:25.251Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-        
-          <a class="article-more-a" href="/2019/03/10/hello-world/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/10/hello-world/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
 
 
@@ -488,8 +365,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
