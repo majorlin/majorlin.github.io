@@ -1,6 +1,5 @@
 ---
-layout: DSC核下的时钟调试
-title: debug
+title: DSC核下的时钟调试
 date: 2019-03-12 15:38:27
 tags: MCU
 ---
