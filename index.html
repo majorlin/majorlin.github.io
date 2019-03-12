@@ -168,6 +168,89 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="DSC核下的时钟调试-dsc_core_clock_debug" class="article article-type-DSC核下的时钟调试  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/12/dsc_core_clock_debug/">debug</a>
+    </h1>
+  
+
+        
+        <a href="/2019/03/12/dsc_core_clock_debug/" class="archive-article-date">
+  	<time datetime="2019-03-12T07:38:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>从ARM核转到DSC核下面各种不适，今天就这些不适的症状做一个简单的介绍。</p>
+<h2 id="工具的各种不适"><a href="#工具的各种不适" class="headerlink" title="工具的各种不适"></a>工具的各种不适</h2><p>DSC现在使用的还是古老的<code>Eclipse</code>编辑器，界面古老且使用各种不便，安装也是各种复杂，为了支持DSC还要安装相应的升级扩展包。另外DSC使用的是<code>P&amp;E</code>的调试器，这个调试器真是不负其名，使用之前要经过各种调试，不过好歹还是可以用了，据说是P&amp;E CEO亲自上阵解的bug。曾几何时我也是<code>Eclipse</code>的粉丝呀，当年还在大学里面学习Java,不过现在看起来，这个IDE真是各种臃肿，界面也明显跟不上时代了，调试的时候各种窗口让人眼花缭乱，不过既然是唯一的选择，我也没得选择。</p>
+<h2 id="C语言的移植性"><a href="#C语言的移植性" class="headerlink" title="C语言的移植性"></a>C语言的移植性</h2><p>曾经天真的我认为C语言的移植问题就是杞人忧天，C语言这么低级有啥好移植的，不都可以直接跑的嘛。知道我遇到了DSC我才知道自己有多天真，曾经将int类型是4个byte这种基础奉为天理，但是如今回首确实各种不堪。DSC让你的int类型变成2byte，甚至地址编址都不再是按照byte编址，而是直接按照16bit编址，这真是超出我的想象，看来我依然只是一只井底之蛙，不过我宁愿待在井底信奉我的真理，奈何现实还是将我无情捞起。从此我也来是老老实实的写可以移植的C语言了，类型定义什么的我也开始使用下面的这种方式了：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/***********************************************************************/</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * The basic data types</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">char</span>		uint8;  <span class="comment">/*  8 bits */</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">short</span> <span class="keyword">int</span>	uint16; <span class="comment">/* 16 bits */</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">int</span>	uint32; <span class="comment">/* 32 bits */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">char</span>			    int8;   <span class="comment">/*  8 bits */</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">short</span> <span class="keyword">int</span>	        int16;  <span class="comment">/* 16 bits */</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span>	            int32;  <span class="comment">/* 32 bits */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">volatile</span> int8		vint8;  <span class="comment">/*  8 bits */</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">volatile</span> int16		vint16; <span class="comment">/* 16 bits */</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">volatile</span> int32		vint32; <span class="comment">/* 32 bits */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">volatile</span> uint8		vuint8;  <span class="comment">/*  8 bits */</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">volatile</span> uint16		vuint16; <span class="comment">/* 16 bits */</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">volatile</span> uint32		vuint32; <span class="comment">/* 32 bits */</span></span><br></pre></td></tr></table></figure>
+<h2 id="输出一个时钟有这么难"><a href="#输出一个时钟有这么难" class="headerlink" title="输出一个时钟有这么难"></a>输出一个时钟有这么难</h2><p>测试时钟的时候也很难呀，比如最开始就碰到了类型的问题，以前一直使用<code>int</code>来表征时钟频率，一般的频率也足够了，但是DSC里面不行，这玩意只有16位，一不小心就溢出了，溢出也没啥警告，辛辛苦苦调试半天才找到原因。</p>
+<p>另外GPIO输出也是挺奇怪的，这玩意和SIM关系挺大哎，也不多说了，直接码上说事：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int32_t</span> enable_clock_out(<span class="keyword">int32_t</span> target, <span class="keyword">clock_out_opt_t</span> clk, <span class="keyword">int32_t</span> div)&#123;</span><br><span class="line">    SIM-&gt;CLKOUT &amp;= ~(SIM_CLKOUT_CLKODIV_MASK);</span><br><span class="line">    SIM-&gt;CLKOUT |= SIM_CLKOUT_CLKODIV(div);</span><br><span class="line">    <span class="keyword">if</span> (target)&#123;</span><br><span class="line">        <span class="comment">/* for clock out1 */</span></span><br><span class="line">        SIM-&gt;CLKOUT &amp;= ~(SIM_CLKOUT_CLKOSEL1_MASK);</span><br><span class="line">        SIM-&gt;CLKOUT |= (SIM_CLKOUT_CLKOSEL1(clk));</span><br><span class="line">        SIM-&gt;CLKOUT &amp;= ~(SIM_CLKOUT_CLKDIS1_MASK);</span><br><span class="line">        SIM-&gt;GPSFL &amp;= ~(SIM_GPSFL_F1_MASK);</span><br><span class="line">        SIM-&gt;PCE0 |= SIM_PCE0_GPIOF_MASK;</span><br><span class="line">        SIM-&gt;GPSFL |= SIM_GPSFL_F1(<span class="number">0</span>);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"Routing clock out 1 to F1 pin"</span>);</span><br><span class="line">        GPIOF-&gt;PER |= (<span class="number">1</span> &lt;&lt; <span class="number">1</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">/* for clock out0 */</span></span><br><span class="line">        SIM-&gt;CLKOUT &amp;= ~(SIM_CLKOUT_CLKOSEL0_MASK);</span><br><span class="line">        SIM-&gt;CLKOUT |= (SIM_CLKOUT_CLKOSEL0(clk));</span><br><span class="line">        SIM-&gt;CLKOUT &amp;= ~(SIM_CLKOUT_CLKDIS0_MASK);</span><br><span class="line">        <span class="comment">/* GPIO clock gate */</span></span><br><span class="line">        SIM-&gt;PCE0 |= SIM_PCE0_GPIOG_MASK;</span><br><span class="line">        <span class="comment">/* GPIO function selection */</span></span><br><span class="line">        SIM-&gt;GPSGH &amp;= ~(SIM_GPSGH_G11_MASK);</span><br><span class="line">        SIM-&gt;GPSGH |= SIM_GPSGH_G11(<span class="number">1</span>);</span><br><span class="line">        <span class="comment">/* select function pin */</span></span><br><span class="line">        GPIOG-&gt;PER |= (<span class="number">1</span> &lt;&lt; <span class="number">11</span>);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"Routing clock out 0 to G11 pin"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ((<span class="number">1</span> &lt;&lt; div) + <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>看到了吧，开时钟、选功能、GPIO功能选择，一个都不能少，虽说也挺正常，但是还是不习惯，不过好在是可以正常搞起来了。</p>
+<p><img src="/images/clock_wave.png" alt="Clock Wave"></p>
+<p>最后看到clock波形的时候还是挺开心的，终于可以正常测试了。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">MCU</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/03/12/dsc_core_clock_debug/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-mcu-idd-test" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
