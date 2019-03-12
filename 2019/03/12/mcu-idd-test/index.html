@@ -6,19 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: MCU | 码菜</title>
+  <title>MCU 电流测试 | 码菜</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="代码一锅大乱炖">
-<meta name="keywords" content="Code FPGA MCU">
-<meta property="og:type" content="website">
-<meta property="og:title" content="码菜">
-<meta property="og:url" content="http://yoursite.com/tags/MCU/index.html">
+  <meta name="description" content="MCU电流测试说起来似乎就是加个电流表读读数就可以了，但实际上并没有那么简单，我们知道MCU里面为了低功耗考虑，各种模块都会加入门控时钟，这样可以在不用的时候关掉时钟，从而降低功耗，另外core的频率，bus频率，flash频率等等都是可以配置的，所以在测量电流的时候，这些因素都要考虑。这个也提高了电流测试的难度，尤其是不同人，不同芯片，不同程序，不同配置下测试都会有偏差。">
+<meta name="keywords" content="MCU">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MCU 电流测试">
+<meta property="og:url" content="http://yoursite.com/2019/03/12/mcu-idd-test/index.html">
 <meta property="og:site_name" content="码菜">
-<meta property="og:description" content="代码一锅大乱炖">
+<meta property="og:description" content="MCU电流测试说起来似乎就是加个电流表读读数就可以了，但实际上并没有那么简单，我们知道MCU里面为了低功耗考虑，各种模块都会加入门控时钟，这样可以在不用的时候关掉时钟，从而降低功耗，另外core的频率，bus频率，flash频率等等都是可以配置的，所以在测量电流的时候，这些因素都要考虑。这个也提高了电流测试的难度，尤其是不同人，不同芯片，不同程序，不同配置下测试都会有偏差。">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-03-12T04:20:16.665Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="码菜">
-<meta name="twitter:description" content="代码一锅大乱炖">
+<meta name="twitter:title" content="MCU 电流测试">
+<meta name="twitter:description" content="MCU电流测试说起来似乎就是加个电流表读读数就可以了，但实际上并没有那么简单，我们知道MCU里面为了低功耗考虑，各种模块都会加入门控时钟，这样可以在不用的时候关掉时钟，从而降低功耗，另外core的频率，bus频率，flash频率等等都是可以配置的，所以在测量电流的时候，这些因素都要考虑。这个也提高了电流测试的难度，尤其是不同人，不同芯片，不同程序，不同配置下测试都会有偏差。">
   
     <link rel="alternative" href="/atom.xml" title="码菜" type="application/atom+xml">
   
@@ -166,36 +167,71 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-mcu-idd-test" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      MCU 电流测试
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/12/mcu-idd-test/" class="archive-article-date">
+
+        
+        <a href="/2019/03/12/mcu-idd-test/" class="archive-article-date">
   	<time datetime="2019-03-12T03:09:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-12</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/12/mcu-idd-test/">MCU 电流测试</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>MCU电流测试说起来似乎就是加个电流表读读数就可以了，但实际上并没有那么简单，我们知道MCU里面为了低功耗考虑，各种模块都会加入门控时钟，这样可以在不用的时候关掉时钟，从而降低功耗，另外core的频率，bus频率，flash频率等等都是可以配置的，所以在测量电流的时候，这些因素都要考虑。这个也提高了电流测试的难度，尤其是不同人，不同芯片，不同程序，不同配置下测试都会有偏差。</p>
+<a id="more"></a>
+<p>这里我也不能规定一个电流测试的标准配置，只是针对电流测试中可能遇到的一些问题做一个简单的总结。</p>
+<h2 id="神奇的while-1"><a href="#神奇的while-1" class="headerlink" title="神奇的while(1)"></a>神奇的while(1)</h2><p>首先我们来看一个比较奇怪的现象，在电流测试中我们常常会测试while(1)下面的电流，不过在测试中我发现代码稍有变动（不影响同好配置的情况下）电流也会有很大的变化，后面跟design的人沟通后发现这个实际上是一个客观存在的现象。出现这个差异的根本原因是我们的cache设计，我们知道在MCU中core的频率是比较高的，而flash等模块频率是比较低的，这个时候为了充分发挥CPU的性能，我们一般会引入流水线等技术，当然还有一个方法就是增加cache，cache可以一次从flash中读取批量数据，而当代码在循环中的时候，可能一个循环的代码都在cache中，这样就不需要每次都从flash中读取数据了。所以说cache实际上是提高了CPU的执行效率，不过cache的大小毕竟有限，所以必要的时间还是要从flash中读取数据刷新的。这个就是问题所在，如果我们的while(1)刚好在cache的边界上，这个时候cache就需要不断的刷新，这势必就会增加功耗，这个时候我们可以在while(1)之前插入几个<code>asm(&quot;nop&quot;)</code>，然后测试电流，这样可以保证cache一直生效。</p>
+<h2 id="clock-gate"><a href="#clock-gate" class="headerlink" title="clock gate"></a>clock gate</h2><p>这个是最近测试中发现的，当clock gate全部打开再关闭之后，电流并没有明显下降，具体原因不明，比较稳妥的方法是不要开了之后再关clock,而是直接关闭clock，这样电流就会少很多，算下来大概可以节省1mA电流。</p>
+<h2 id="板载电流消耗"><a href="#板载电流消耗" class="headerlink" title="板载电流消耗"></a>板载电流消耗</h2><p>在电流测试中一定要注意是否有除MCU之外的板载电流消耗，包括各种LED指示灯，上拉电阻，reset电路等等，必要的时候更换测量点或者移除不必要的电路。</p>
 
-        <div class="article-info info-on-right">
-          
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>别打CALL，打钱<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/images/top/alipay.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/images/top/wechat.jpg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -207,95 +243,122 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//sapi.k780.com/?app=qr.get&data=http://yoursite.com/2019/03/12/mcu-idd-test/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/11/current-measure-on-oscillator/" class="archive-article-date">
-  	<time datetime="2019-03-11T05:58:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-11</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/03/11/current-measure-on-oscillator/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">示波器电流测量</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/11/current-measure-on-oscillator/">示波器电流测量</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">MCU</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/10/N1_bootloader/" class="archive-article-date">
-  	<time datetime="2019-03-10T10:16:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-10</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/10/N1_bootloader/">斐讯N1 Bootloader</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">MCU</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
+  <div id="gitment-ctn"></div> 
+<link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+<script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: "http://yoursite.com/2019/03/12/mcu-idd-test/",
+  owner: 'majorlin',
+  repo: 'majorlin.github.io',
+  oauth: {
+    client_id: '10540e7e941427d2113c',
+    client_secret: '8d2a8e2f3495dee87dd2e2132e374801d65db4a5',
+  },
+})
+gitment.render('gitment-ctn')
+</script>
+  
 
 
           </div>
@@ -318,9 +381,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
